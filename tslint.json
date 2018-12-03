@@ -21,6 +21,7 @@
     "no-empty": false,
     "variable-name": false,
     "curly": false,
-    "no-bitwise": false
+    "no-bitwise": false,
+    "member-ordering":false
   }
 }

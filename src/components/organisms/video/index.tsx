@@ -2,7 +2,9 @@ import * as React from "react";
 import ReactPlayer from "react-player";
 import { TextField, Button } from "@material-ui/core";
 
-interface IvideoProps {}
+interface IvideoProps {
+  style?: object;
+}
 
 interface IvideoState {
   url?: string;
@@ -20,7 +22,7 @@ export default class Video extends React.Component<IvideoProps, IvideoState> {
   render() {
     const { url } = this.state;
     return (
-      <div>
+      <div style={this.props.style}>
         <div
           style={{
             border: "1px solid",
@@ -52,7 +54,7 @@ export default class Video extends React.Component<IvideoProps, IvideoState> {
             style={{ position: "absolute", top: 0, left: 0 }}
             url={url}
             playing
-            width="70%"
+            width="100%"
             height="100%"
           />
         </div>

@@ -44,7 +44,6 @@ export default class OpenUrl extends React.Component<
           onClick={() => {
             this.props.onOpenUrl(this.url);
           }}
-          style={{ width: "20%" }}
         >
           open
         </Button>
