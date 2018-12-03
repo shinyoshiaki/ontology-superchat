@@ -1,0 +1,46 @@
+{
+  "hash": "0x3007619ccfd3851278beda7054b91e79796ce3a0",
+  "entrypoint": "Main",
+  "functions": [
+    {
+      "name": "Main",
+      "parameters": [
+        { "name": "operation", "type": "String" },
+        { "name": "args", "type": "Array" }
+      ],
+      "returntype": "ByteArray"
+    },
+    {
+      "name": "Put",
+      "parameters": [
+        { "name": "key", "type": "ByteArray" },
+        { "name": "value", "type": "String" }
+      ],
+      "returntype": "Boolean"
+    },
+    {
+      "name": "Get",
+      "parameters": [{ "name": "key", "type": "ByteArray" }],
+      "returntype": "ByteArray"
+    }
+  ],
+  "events": [
+    {
+      "name": "putRecord",
+      "parameters": [
+        { "name": "operation", "type": "String" },
+        { "name": "key", "type": "ByteArray" },
+        { "name": "value", "type": "String" }
+      ],
+      "returntype": "Void"
+    },
+    {
+      "name": "getRecord",
+      "parameters": [
+        { "name": "operation", "type": "String" },
+        { "name": "key", "type": "ByteArray" }
+      ],
+      "returntype": "Void"
+    }
+  ]
+}
