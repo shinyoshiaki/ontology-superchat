@@ -11,6 +11,7 @@ storiesOf("templates", module).add("main", () => (
     listCommentComments={makeIlistCommentPropsMock().listCommentComments}
     onformCommentPost={action("post")}
     onformCommentSuperchat={action("superchat")}
+    onformSetAddress={action("formsetaddress")}
     name="name"
   />
 ));

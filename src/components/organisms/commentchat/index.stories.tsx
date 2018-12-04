@@ -41,6 +41,7 @@ storiesOf("organisms", module).add("commentchat", () => (
     listCommentComments={makeIlistCommentPropsMock().listCommentComments}
     onformCommentPost={action("post")}
     onformCommentSuperchat={action("superchat")}
+    onformSetAddress={action("formsetaddress")}
     name="name"
   />
 ));

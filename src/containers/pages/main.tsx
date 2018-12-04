@@ -1,21 +1,20 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { ReduxState } from "src/createStore";
-import { Button } from "@material-ui/core";
 import { increment } from "src/modules/test";
 import { Dispatch } from "redux";
-import { mock } from "src/modules/wallet";
+import MainTemp from "src/components/templates/main";
+import { Chatstate, addComment } from "../../modules/chat";
+import { CommentData } from "../../components/molecules/listComment";
 
-interface Props {
+interface Props extends Chatstate {
   dispatch: Dispatch;
-  counter: number;
   history: any;
 }
 
 class Main extends React.Component<Props, {}> {
   constructor(props: any) {
     super(props);
-    mock();
   }
 
   increment = () => {
@@ -24,23 +23,26 @@ class Main extends React.Component<Props, {}> {
   };
 
   render() {
-    console.log(this.props);
-    const { counter, history } = this.props;
+    const { comments, dispatch } = this.props;
     return (
       <div>
-        hello
-        {counter}
-        <Button onClick={this.increment}>increment</Button>
-        <Button
-          onClick={() => {
-            history.push("/login");
+        <MainTemp
+          listCommentComments={comments}
+          onformCommentPost={msg => {
+            const comment: CommentData = {
+              id: "name",
+              msg,
+              timestamp: Date.now()
+            };
+            addComment(comment, dispatch);
           }}
-        >
-          move
-        </Button>
+          onformCommentSuperchat={() => {}}
+          onformSetAddress={() => {}}
+          name="name"
+        />
       </div>
     );
   }
 }
 
-export default connect((state: ReduxState) => state.test)(Main);
+export default connect((state: ReduxState) => state.chat)(Main);

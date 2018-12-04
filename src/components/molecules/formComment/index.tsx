@@ -2,24 +2,23 @@ import * as React from "react";
 import { TextField, Button } from "@material-ui/core";
 
 export interface IformCommentProps {
-  onformCommentPost: (v?: string) => void;
+  onformCommentPost: (v: string) => void;
   onformCommentSuperchat: (v?: string) => void;
   name: string;
 }
 
 export interface IformCommentState {
-  url?: string;
+  msg: string;
 }
 
 export default class FormComment extends React.Component<
   IformCommentProps,
   IformCommentState
 > {
-  url?: string;
   constructor(props: IformCommentProps) {
     super(props);
     this.state = {
-      url: undefined
+      msg: ""
     };
   }
 
@@ -39,9 +38,10 @@ export default class FormComment extends React.Component<
         <br />
         <TextField
           onChange={e => {
-            this.url = e.target.value;
+            this.setState({ msg: e.target.value });
           }}
-          label="url"
+          value={this.state.msg}
+          label="comment"
           style={{ width: "80%" }}
         />
         <br />
@@ -49,7 +49,7 @@ export default class FormComment extends React.Component<
           <div>
             <Button
               onClick={() => {
-                this.props.onformCommentSuperchat(this.url);
+                this.props.onformCommentSuperchat();
               }}
             >
               super chat
@@ -58,7 +58,8 @@ export default class FormComment extends React.Component<
           <div>
             <Button
               onClick={() => {
-                this.props.onformCommentPost(this.url);
+                this.props.onformCommentPost(this.state.msg);
+                this.setState({ msg: "" });
               }}
             >
               post

@@ -1,20 +1,20 @@
 import * as React from "react";
 import { TextField, Button } from "@material-ui/core";
 
-export interface IopenurlProps {
-  onOpenUrl: (v?: string) => void;
+export interface IformSetAddressProps {
+  onformSetAddress: (v?: string) => void;
 }
 
-export interface IopenurlState {
+export interface IformSetAddressState {
   url?: string;
 }
 
-export default class OpenUrl extends React.Component<
-  IopenurlProps,
-  IopenurlState
+export default class FormSetAddress extends React.Component<
+  IformSetAddressProps,
+  IformSetAddressState
 > {
   url?: string;
-  constructor(props: IopenurlProps) {
+  constructor(props: IformSetAddressProps) {
     super(props);
     this.state = {
       url: undefined
@@ -37,12 +37,11 @@ export default class OpenUrl extends React.Component<
           onChange={e => {
             this.url = e.target.value;
           }}
-          label="url"
-          style={{ width: "80%" }}
+          label="address"
         />
         <Button
           onClick={() => {
-            this.props.onOpenUrl(this.url);
+            this.props.onformSetAddress(this.url);
           }}
         >
           open
