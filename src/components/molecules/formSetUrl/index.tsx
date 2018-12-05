@@ -6,18 +6,17 @@ export interface IopenurlProps {
 }
 
 export interface IopenurlState {
-  url?: string;
+  url: string;
 }
 
 export default class OpenUrl extends React.Component<
   IopenurlProps,
   IopenurlState
 > {
-  url?: string;
   constructor(props: IopenurlProps) {
     super(props);
     this.state = {
-      url: undefined
+      url: ""
     };
   }
 
@@ -35,14 +34,16 @@ export default class OpenUrl extends React.Component<
       >
         <TextField
           onChange={e => {
-            this.url = e.target.value;
+            this.setState({ url: e.target.value });
           }}
+          value={this.state.url}
           label="url"
           style={{ width: "80%" }}
         />
         <Button
           onClick={() => {
-            this.props.onOpenUrl(this.url);
+            this.props.onOpenUrl(this.state.url);
+            this.setState({ url: "" });
           }}
         >
           open

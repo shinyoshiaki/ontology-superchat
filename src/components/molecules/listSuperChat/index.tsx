@@ -4,7 +4,7 @@ import Identicons from "react-blockies-image";
 
 export interface IlistSuperChatProps {
   listSuperChatComments: CommentData[];
-  maxheight?: number;
+  maxheight?: string;
   style?: object;
 }
 

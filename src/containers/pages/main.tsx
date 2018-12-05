@@ -1,7 +1,6 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { ReduxState } from "src/createStore";
-import { increment } from "src/modules/test";
 import { Dispatch } from "redux";
 import MainTemp from "src/components/templates/main";
 import { Chatstate, addComment } from "../../modules/chat";
@@ -12,7 +11,8 @@ import {
   superChat,
   setWalletValue,
   EwalletValue,
-  Walletstate
+  Walletstate,
+  setMyAddress
 } from "../../modules/wallet";
 
 interface Props extends Chatstate, Walletstate {
@@ -28,24 +28,28 @@ class Main extends React.Component<Props, States> {
   constructor(props: any) {
     super(props);
     this.state = { modalOpen: false };
+    setMyAddress(this.props.dispatch);
   }
 
-  increment = () => {
-    const { dispatch } = this.props;
-    increment(dispatch);
-  };
-
   render() {
-    const { comments, dispatch, targetAddress, history } = this.props;
+    const {
+      comments,
+      dispatch,
+      targetAddress,
+      history,
+      myAddress
+    } = this.props;
     console.log({ comments });
     return (
       <div>
         <MainTemp
+          myAddress={myAddress}
           listCommentComments={comments}
           listSuperChatComments={comments}
           onformCommentPost={msg => {
+            if (!myAddress) return;
             const comment: CommentData = {
-              id: "name",
+              id: myAddress,
               msg,
               timestamp: Date.now()
             };
@@ -60,7 +64,7 @@ class Main extends React.Component<Props, States> {
           name="name"
           history={history}
           drawerMolList={[
-            { address: "main", label: "watch" },
+            { address: "", label: "watch" },
             { address: "stream", label: "stream" }
           ]}
         />
@@ -83,7 +87,7 @@ class Main extends React.Component<Props, States> {
             }}
           >
             <FormSuperChat
-              name="test"
+              name={myAddress ? myAddress : "error"}
               onformSuperChatPost={(msg, amount) => {
                 console.log({ targetAddress });
                 if (targetAddress)

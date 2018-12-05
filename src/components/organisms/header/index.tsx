@@ -5,6 +5,7 @@ import MenuIcon from "@material-ui/icons/Menu";
 import DrawerMol, { IdrawerMolProps } from "../../molecules/drawer";
 export interface IheaderOrgProps extends IdrawerMolProps {
   style?: object;
+  myAddress?: string;
 }
 
 interface IheaderOrgState {
@@ -31,7 +32,7 @@ export default class HeaderOrg extends React.Component<
     return (
       <div>
         <AppBar position="static">
-          <Toolbar>
+          <Toolbar style={{ display: "flexbox" }}>
             <IconButton
               color="inherit"
               aria-label="open drawer"
@@ -41,6 +42,14 @@ export default class HeaderOrg extends React.Component<
             </IconButton>
             <Typography variant="title" color="inherit" noWrap>
               Ontology Live
+            </Typography>
+            <Typography
+              variant="title"
+              color="inherit"
+              noWrap
+              style={{ marginLeft: "auto" }}
+            >
+              {this.props.myAddress}
             </Typography>
           </Toolbar>
         </AppBar>

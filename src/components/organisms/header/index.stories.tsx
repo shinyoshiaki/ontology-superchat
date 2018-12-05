@@ -7,5 +7,5 @@ import { makeIdrawerMolPropsMock } from "../../molecules/drawer/index.stories";
 // import { action } from "@storybook/addon-actions";
 
 storiesOf("organisms", module).add("header", () => (
-  <Component {...makeIdrawerMolPropsMock()} />
+  <Component {...makeIdrawerMolPropsMock()} myAddress="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"/>
 ));

@@ -6,15 +6,18 @@ import { addComment, AddCommentAction } from "./chat";
 import { CommentData } from "../components/molecules/listComment";
 
 const json = jsonBin;
+client.registerClient({});
 
 console.log({ json });
 
 export interface Walletstate {
   targetAddress?: string;
+  myAddress?: string;
 }
 
 const initialState: Walletstate = {
-  targetAddress: undefined
+  targetAddress: undefined,
+  myAddress: undefined
 };
 
 enum ActionNames {
@@ -22,7 +25,8 @@ enum ActionNames {
 }
 
 export enum EwalletValue {
-  targetAddress = "targetAddress"
+  targetAddress = "targetAddress",
+  myAddress = "myAddress"
 }
 
 interface SetValueAction extends Action {
@@ -32,11 +36,16 @@ interface SetValueAction extends Action {
 }
 
 export function setWalletValue(
-  key: string,
+  key: EwalletValue,
   value: any,
   dispatch: Dispatch<SetValueAction>
 ) {
   dispatch({ type: ActionNames.SET_VALUE, key, value });
+}
+
+export async function setMyAddress(dispatch: Dispatch<SetValueAction>) {
+  const address = await client.api.asset.getAccount();
+  if (address) setWalletValue(EwalletValue.myAddress, address, dispatch);
 }
 
 export function address2scriptHash(address: string) {
@@ -54,7 +63,6 @@ export async function superChat(
   const abiInfo = AbiInfo.parseJson(JSON.stringify(json));
   const codeHash = abiInfo.getHash().replace("0x", "");
 
-  client.registerClient({});
   const address = await client.api.asset.getAccount();
 
   const abiFunction = abiInfo.getFunction("tip");

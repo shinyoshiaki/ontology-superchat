@@ -10,7 +10,7 @@ export interface CommentData {
 
 export interface IlistCommentProps {
   listCommentComments: CommentData[];
-  maxheight?: number;
+  maxheight?: string;
   style?: object;
 }
 
