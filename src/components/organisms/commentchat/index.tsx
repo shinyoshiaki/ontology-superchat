@@ -31,7 +31,7 @@ export default class CommentChatOrg extends React.Component<
           style={{
             display: "flex",
             flexDirection: "column",
-            minHeight: "95vh"
+            minHeight: "90vh"
           }}
         >
           <FormSetAddress {...this.props} />
@@ -39,7 +39,7 @@ export default class CommentChatOrg extends React.Component<
           <div style={{ flex: 1 }}>
             <ListComment {...this.props} style={{ height: "100%" }} />
           </div>
-          <FormComment {...this.props} />
+          <FormComment {...this.props} style={{ marginTop: "auto" }} />
         </div>
       </div>
     );

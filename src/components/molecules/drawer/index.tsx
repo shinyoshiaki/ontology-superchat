@@ -8,8 +8,8 @@ export interface IdrawerMolList {
 }
 
 export interface IdrawerMolProps {
-  drawerOpen: boolean;
-  drawerMolClose: () => void;
+  drawerOpen?: boolean;
+  drawerMolClose?: () => void;
   drawerMolList: IdrawerMolList[];
   history: any;
 }
@@ -46,7 +46,7 @@ export default class DrawerMol extends React.Component<
         <div>
           <IconButton
             onClick={() => {
-              this.props.drawerMolClose();
+              if (this.props.drawerMolClose) this.props.drawerMolClose();
             }}
           >
             <ArrowBack />

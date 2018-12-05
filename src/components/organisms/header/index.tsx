@@ -3,7 +3,9 @@ import * as React from "react";
 import { AppBar, Toolbar, IconButton, Typography } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import DrawerMol, { IdrawerMolProps } from "../../molecules/drawer";
-interface IheaderOrgProps extends IdrawerMolProps {}
+export interface IheaderOrgProps extends IdrawerMolProps {
+  style?: object;
+}
 
 interface IheaderOrgState {
   drawerOpen: boolean;
@@ -28,7 +30,7 @@ export default class HeaderOrg extends React.Component<
   render() {
     return (
       <div>
-        <AppBar>
+        <AppBar position="static">
           <Toolbar>
             <IconButton
               color="inherit"

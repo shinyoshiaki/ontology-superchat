@@ -5,6 +5,7 @@ export interface IformCommentProps {
   onformCommentPost: (v: string) => void;
   onformCommentSuperchat: (v?: string) => void;
   name: string;
+  style?: any;
 }
 
 export interface IformCommentState {
@@ -31,7 +32,8 @@ export default class FormComment extends React.Component<
           borderWidth: 0.5,
           borderColor: "#d6d7da",
           margin: 3,
-          padding: 10
+          padding: 10,
+          ...this.props.style
         }}
       >
         {this.props.name}

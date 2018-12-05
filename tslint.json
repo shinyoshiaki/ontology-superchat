@@ -22,6 +22,6 @@
     "variable-name": false,
     "curly": false,
     "no-bitwise": false,
-    "member-ordering":false
+    "member-ordering": false
   }
 }

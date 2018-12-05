@@ -36,7 +36,7 @@ class Main extends React.Component<Props, States> {
   };
 
   render() {
-    const { comments, dispatch, targetAddress } = this.props;
+    const { comments, dispatch, targetAddress, history } = this.props;
     console.log({ comments });
     return (
       <div>
@@ -58,6 +58,11 @@ class Main extends React.Component<Props, States> {
             setWalletValue(EwalletValue.targetAddress, target, dispatch);
           }}
           name="name"
+          history={history}
+          drawerMolList={[
+            { address: "main", label: "watch" },
+            { address: "stream", label: "stream" }
+          ]}
         />
         <Modal
           aria-labelledby="simple-modal-title"
