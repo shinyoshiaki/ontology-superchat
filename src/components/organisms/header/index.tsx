@@ -5,7 +5,7 @@ import MenuIcon from "@material-ui/icons/Menu";
 import DrawerMol, { IdrawerMolProps } from "../../molecules/drawer";
 export interface IheaderOrgProps extends IdrawerMolProps {
   style?: object;
-  myAddress?: string;
+  myAddress: string;
 }
 
 interface IheaderOrgState {

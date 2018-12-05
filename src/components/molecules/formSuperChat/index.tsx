@@ -3,7 +3,7 @@ import { TextField, Button } from "@material-ui/core";
 
 export interface IformSuperChatProps {
   onformSuperChatPost: (msg: string, amount: number) => void;
-  name: string;
+  myAddress: string;
 }
 
 export interface IformSuperChatState {
@@ -37,7 +37,7 @@ export default class FormSuperChat extends React.Component<
           padding: 10
         }}
       >
-        {this.props.name}
+        {this.props.myAddress}
         <br />
         <TextField
           onChange={e => {

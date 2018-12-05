@@ -4,7 +4,7 @@ import { TextField, Button } from "@material-ui/core";
 export interface IformCommentProps {
   onformCommentPost: (v: string) => void;
   onformCommentSuperchat: (v?: string) => void;
-  name: string;
+  myAddress: string;
   style?: any;
 }
 
@@ -36,7 +36,7 @@ export default class FormComment extends React.Component<
           ...this.props.style
         }}
       >
-        {this.props.name}
+        {this.props.myAddress}
         <br />
         <TextField
           onChange={e => {

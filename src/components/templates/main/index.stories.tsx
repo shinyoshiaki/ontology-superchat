@@ -15,6 +15,6 @@ storiesOf("templates", module).add("main", () => (
     onformCommentPost={action("post")}
     onformCommentSuperchat={action("superchat")}
     onformSetAddress={action("formsetaddress")}
-    name="name"
+    myAddress="name"
   />
 ));

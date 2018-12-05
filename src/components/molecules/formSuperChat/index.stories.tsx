@@ -6,5 +6,5 @@ import Component from ".";
 import { action } from "@storybook/addon-actions";
 
 storiesOf("molecules", module).add("formSuperChat", () => (
-  <Component onformSuperChatPost={action("post")} name="test" />
+  <Component onformSuperChatPost={action("post")} myAddress="test" />
 ));

@@ -7,13 +7,7 @@ import { Chatstate, addComment } from "../../modules/chat";
 import { CommentData } from "../../components/molecules/listComment";
 import { Modal } from "@material-ui/core";
 import FormSuperChat from "../../components/molecules/formSuperChat";
-import {
-  superChat,
-  setWalletValue,
-  EwalletValue,
-  Walletstate,
-  setMyAddress
-} from "../../modules/wallet";
+import { superChat, setWalletValue, EwalletValue, Walletstate, setMyAddress } from "../../modules/wallet";
 
 interface Props extends Chatstate, Walletstate {
   dispatch: Dispatch;
@@ -24,6 +18,8 @@ interface States {
   modalOpen: boolean;
 }
 
+export const drawerList = [{ address: "", label: "watch" }, { address: "stream", label: "stream" }];
+
 class Main extends React.Component<Props, States> {
   constructor(props: any) {
     super(props);
@@ -31,50 +27,49 @@ class Main extends React.Component<Props, States> {
     setMyAddress(this.props.dispatch);
   }
 
+  handleModalClose = () => {
+    this.setState({ modalOpen: false });
+  };
+
+  handleModalOpen = () => {
+    this.setState({ modalOpen: true });
+  };
+
+  formCommentPost = (msg: string) => {
+    if (!this.props.myAddress) return;
+    const comment: CommentData = {
+      id: this.props.myAddress,
+      msg,
+      money: 0,
+      timestamp: Date.now()
+    };
+    addComment(comment, this.props.dispatch);
+  };
+
+  formSetAddress = (target: string) => {
+    setWalletValue(EwalletValue.targetAddress, target, this.props.dispatch);
+  };
+
   render() {
-    const {
-      comments,
-      dispatch,
-      targetAddress,
-      history,
-      myAddress
-    } = this.props;
+    const { comments, dispatch, targetAddress, history, myAddress } = this.props;
     console.log({ comments });
     return (
       <div>
         <MainTemp
-          myAddress={myAddress}
+          myAddress={myAddress ? myAddress : "error"}
           listCommentComments={comments}
           listSuperChatComments={comments}
-          onformCommentPost={msg => {
-            if (!myAddress) return;
-            const comment: CommentData = {
-              id: myAddress,
-              msg,
-              timestamp: Date.now()
-            };
-            addComment(comment, dispatch);
-          }}
-          onformCommentSuperchat={() => {
-            this.setState({ modalOpen: true });
-          }}
-          onformSetAddress={target => {
-            setWalletValue(EwalletValue.targetAddress, target, dispatch);
-          }}
-          name="name"
+          onformCommentPost={this.formCommentPost}
+          onformCommentSuperchat={this.handleModalOpen}
+          onformSetAddress={this.formSetAddress}
           history={history}
-          drawerMolList={[
-            { address: "", label: "watch" },
-            { address: "stream", label: "stream" }
-          ]}
+          drawerMolList={drawerList}
         />
         <Modal
           aria-labelledby="simple-modal-title"
           aria-describedby="simple-modal-description"
           open={this.state.modalOpen}
-          onClose={() => {
-            this.setState({ modalOpen: false });
-          }}
+          onClose={this.handleModalClose}
           style={{ display: "flex" }}
         >
           <div
@@ -87,11 +82,10 @@ class Main extends React.Component<Props, States> {
             }}
           >
             <FormSuperChat
-              name={myAddress ? myAddress : "error"}
+              myAddress={myAddress ? myAddress : "error"}
               onformSuperChatPost={(msg, amount) => {
                 console.log({ targetAddress });
-                if (targetAddress)
-                  superChat(targetAddress, msg, amount, dispatch);
+                if (targetAddress) superChat(targetAddress, msg, amount, dispatch);
               }}
             />
           </div>
@@ -101,6 +95,4 @@ class Main extends React.Component<Props, States> {
   }
 }
 
-export default connect((state: ReduxState) =>
-  Object.assign({}, state.chat, state.wallet)
-)(Main);
+export default connect((state: ReduxState) => Object.assign({}, state.chat, state.wallet))(Main);

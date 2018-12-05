@@ -8,6 +8,7 @@ import { makeIdrawerMolPropsMock } from "../../molecules/drawer/index.stories";
 
 storiesOf("templates", module).add("stream", () => (
   <Component
+    myAddress="test"
     {...makeIdrawerMolPropsMock()}
     listCommentComments={makeIlistCommentPropsMock().listCommentComments}
     listSuperChatComments={makeIlistCommentPropsMock().listCommentComments}

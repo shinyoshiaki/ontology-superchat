@@ -43,6 +43,6 @@ storiesOf("organisms", module).add("commentchat", () => (
     onformCommentPost={action("post")}
     onformCommentSuperchat={action("superchat")}
     onformSetAddress={action("formsetaddress")}
-    name="name"
+    myAddress="name"
   />
 ));

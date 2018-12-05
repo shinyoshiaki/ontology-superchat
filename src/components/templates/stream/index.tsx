@@ -1,8 +1,8 @@
 import * as React from "react";
 import StreamChatOrg, { IStreamChatProps } from "../../organisms/streamchat";
-import HeaderOrg, { IheaderOrgProps } from '../../organisms/header';
+import HeaderOrg, { IheaderOrgProps } from "../../organisms/header";
 
-export interface IStreamTempProps extends IStreamChatProps,IheaderOrgProps {}
+export interface IStreamTempProps extends IStreamChatProps, IheaderOrgProps {}
 
 export default class StreamTemp extends React.Component<IStreamTempProps, {}> {
   constructor(props: IStreamTempProps) {
@@ -12,7 +12,7 @@ export default class StreamTemp extends React.Component<IStreamTempProps, {}> {
   public render() {
     return (
       <div>
-        <HeaderOrg {...this.props}/>
+        <HeaderOrg {...this.props} />
         <StreamChatOrg {...this.props} />
       </div>
     );

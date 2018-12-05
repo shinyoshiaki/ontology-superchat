@@ -9,6 +9,6 @@ storiesOf("molecules", module).add("formComment", () => (
   <Component
     onformCommentPost={action("post")}
     onformCommentSuperchat={action("superchat")}
-    name="test"
+    myAddress="test"
   />
 ));
