@@ -4,11 +4,15 @@ import FormComment, { IformCommentProps } from "../../molecules/formComment";
 import FormSetAddress, {
   IformSetAddressProps
 } from "../../molecules/formSetAddress";
+import ListSuperChat, {
+  IlistSuperChatProps
+} from "../../molecules/listSuperChat";
 
 export interface ICommentChatProps
   extends IlistCommentProps,
     IformCommentProps,
-    IformSetAddressProps {
+    IformSetAddressProps,
+    IlistSuperChatProps {
   style?: object;
 }
 
@@ -30,9 +34,10 @@ export default class CommentChatOrg extends React.Component<
             minHeight: "95vh"
           }}
         >
+          <FormSetAddress {...this.props} />
+          <ListSuperChat {...this.props} />
           <div style={{ flex: 1 }}>
-            <FormSetAddress {...this.props} />
-            <ListComment {...this.props} />
+            <ListComment {...this.props} style={{ height: "100%" }} />
           </div>
           <FormComment {...this.props} />
         </div>

@@ -1,7 +1,10 @@
 {
-  "hash": "0x3007619ccfd3851278beda7054b91e79796ce3a0",
+  "hash": "0x54281aedadd2bcbaadcd460a885d7e3edecf721b",
   "entrypoint": "Main",
   "functions": [
+    { "name": "name", "parameters": [], "returntype": "String" },
+    { "name": "symbol", "parameters": [], "returntype": "String" },
+    { "name": "decimals", "parameters": [], "returntype": "Integer" },
     {
       "name": "Main",
       "parameters": [
@@ -10,37 +13,47 @@
       ],
       "returntype": "ByteArray"
     },
+    { "name": "deploy", "parameters": [], "returntype": "Boolean" },
+    { "name": "totalSupply", "parameters": [], "returntype": "Integer" },
     {
-      "name": "Put",
+      "name": "transfer",
       "parameters": [
-        { "name": "key", "type": "ByteArray" },
-        { "name": "value", "type": "String" }
+        { "name": "from", "type": "ByteArray" },
+        { "name": "to", "type": "ByteArray" },
+        { "name": "value", "type": "Integer" }
       ],
       "returntype": "Boolean"
     },
     {
-      "name": "Get",
-      "parameters": [{ "name": "key", "type": "ByteArray" }],
-      "returntype": "ByteArray"
-    }
-  ],
-  "events": [
-    {
-      "name": "putRecord",
-      "parameters": [
-        { "name": "operation", "type": "String" },
-        { "name": "key", "type": "ByteArray" },
-        { "name": "value", "type": "String" }
-      ],
-      "returntype": "Void"
+      "name": "balanceOf",
+      "parameters": [{ "name": "address", "type": "ByteArray" }],
+      "returntype": "Integer"
     },
     {
-      "name": "getRecord",
+      "name": "inflation",
+      "parameters": [{ "name": "count", "type": "Integer" }],
+      "returntype": "Boolean"
+    },
+    {
+      "name": "recycle",
+      "parameters": [{ "name": "count", "type": "Integer" }],
+      "returntype": "Boolean"
+    },
+    {
+      "name": "transferMulti",
+      "parameters": [{ "name": "args", "type": "Array" }],
+      "returntype": "Boolean"
+    },
+    {
+      "name": "tip",
       "parameters": [
-        { "name": "operation", "type": "String" },
-        { "name": "key", "type": "ByteArray" }
+        { "name": "me", "type": "ByteArray" },
+        { "name": "target", "type": "ByteArray" },
+        { "name": "amount", "type": "Integer" },
+        { "name": "data", "type": "String" }
       ],
-      "returntype": "Void"
+      "returntype": "Boolean"
     }
-  ]
+  ],
+  "events": []
 }

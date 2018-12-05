@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Typography } from "@material-ui/core";
+import Blockies from "react-blockies-image";
 
 export interface IviewCommentProps {
   id: string;
@@ -25,6 +26,9 @@ export default class ViewComment extends React.Component<
           borderColor: "#d6d7da"
         }}
       >
+        <div style={{ padding: 10}}>
+          <Blockies seed={this.props.id} scale={3} />
+        </div>
         <Typography style={{ padding: 10 }}>{this.props.id}</Typography>
         <Typography style={{ padding: 10 }}>{this.props.msg}</Typography>
       </div>

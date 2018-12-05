@@ -9,6 +9,7 @@ import { makeIlistCommentPropsMock } from "../../organisms/commentchat/index.sto
 storiesOf("templates", module).add("main", () => (
   <Component
     listCommentComments={makeIlistCommentPropsMock().listCommentComments}
+    listSuperChatComments={makeIlistCommentPropsMock().listCommentComments}
     onformCommentPost={action("post")}
     onformCommentSuperchat={action("superchat")}
     onformSetAddress={action("formsetaddress")}

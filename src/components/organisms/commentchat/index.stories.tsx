@@ -39,6 +39,7 @@ export const makeIlistCommentPropsMock = (
 storiesOf("organisms", module).add("commentchat", () => (
   <Component
     listCommentComments={makeIlistCommentPropsMock().listCommentComments}
+    listSuperChatComments={makeIlistCommentPropsMock().listCommentComments}
     onformCommentPost={action("post")}
     onformCommentSuperchat={action("superchat")}
     onformSetAddress={action("formsetaddress")}

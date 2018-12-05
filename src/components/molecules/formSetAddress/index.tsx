@@ -2,11 +2,12 @@ import * as React from "react";
 import { TextField, Button } from "@material-ui/core";
 
 export interface IformSetAddressProps {
-  onformSetAddress: (v?: string) => void;
+  onformSetAddress: (target: string) => void;
 }
 
 export interface IformSetAddressState {
   url?: string;
+  showAddress: string;
 }
 
 export default class FormSetAddress extends React.Component<
@@ -17,7 +18,8 @@ export default class FormSetAddress extends React.Component<
   constructor(props: IformSetAddressProps) {
     super(props);
     this.state = {
-      url: undefined
+      url: undefined,
+      showAddress: ""
     };
   }
 
@@ -41,11 +43,15 @@ export default class FormSetAddress extends React.Component<
         />
         <Button
           onClick={() => {
-            this.props.onformSetAddress(this.url);
+            if (this.url) {
+              this.props.onformSetAddress(this.url);
+              this.setState({ showAddress: this.url });
+            }
           }}
         >
           open
         </Button>
+        {this.state.showAddress}
       </div>
     );
   }

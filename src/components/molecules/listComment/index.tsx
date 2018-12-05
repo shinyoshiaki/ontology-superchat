@@ -11,6 +11,7 @@ export interface CommentData {
 export interface IlistCommentProps {
   listCommentComments: CommentData[];
   maxheight?: number;
+  style?: object;
 }
 
 export interface IlistCommentState {}
@@ -27,8 +28,8 @@ export default class ListComment extends React.Component<
     };
   }
 
-  private renderComment(comment: CommentData) {
-    return <ViewComment id={comment.id} msg={comment.msg} />;
+  private renderComment(comment: CommentData, i: number) {
+    return <ViewComment id={comment.id} msg={comment.msg} key={i} />;
   }
 
   render() {
@@ -42,11 +43,12 @@ export default class ListComment extends React.Component<
           borderColor: "#d6d7da",
           margin: 3,
           padding: 10,
-          maxHeight: maxheight ? maxheight : "70vh",
-          overflow: "scroll"
+          maxHeight: maxheight ? maxheight : "50vh",
+          overflow: "scroll",
+          ...this.props.style
         }}
       >
-        {this.props.listCommentComments.map(v => this.renderComment(v))}
+        {this.props.listCommentComments.map((v, i) => this.renderComment(v, i))}
       </div>
     );
   }

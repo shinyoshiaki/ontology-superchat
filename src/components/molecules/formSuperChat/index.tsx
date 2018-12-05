@@ -2,7 +2,7 @@ import * as React from "react";
 import { TextField, Button } from "@material-ui/core";
 
 export interface IformSuperChatProps {
-  onformSuperChatPost: (v?: string, v2?: number) => void;
+  onformSuperChatPost: (msg: string, amount: number) => void;
   name: string;
 }
 

@@ -28,7 +28,7 @@ export function setValue(
   dispatch({ type: ActionNames.SET_VALUE, key, value });
 }
 
-interface AddCommentAction extends Action {
+export interface AddCommentAction extends Action {
   type: ActionNames.ADD_COMMENT;
   comment: CommentData;
 }

@@ -6236,6 +6236,18 @@ icss-utils@^2.1.0:
   dependencies:
     postcss "^6.0.1"
 
+identicons-react@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/identicons-react/-/identicons-react-0.1.0.tgz#c4ace8d48f76549c32a1d7aec5a123c6e70286d3"
+  integrity sha1-xKzo1I92VJwyodeuxaEjxucChtM=
+  dependencies:
+    identicons "^0.1.0"
+
+identicons@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/identicons/-/identicons-0.1.0.tgz#cb5d7b0d9af801cf7c409f82241649f6bf614950"
+  integrity sha1-y117DZr4Ac98QJ+CJBZJ9r9hSVA=
+
 ieee754@^1.1.4:
   version "1.1.12"
   resolved "https://registry.yarnpkg.com/ieee754/-/ieee754-1.1.12.tgz#50bf24e5b9c8bb98af4964c941cdb0918da7b60b"
@@ -9709,6 +9721,11 @@ rc@^1.0.1, rc@^1.1.6, rc@^1.2.7:
     ini "~1.3.0"
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
+
+react-blockies-image@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/react-blockies-image/-/react-blockies-image-0.0.2.tgz#4168b11ff20a2027fdd0245e356ad76d10b5cf1c"
+  integrity sha512-4Tk8pKgkLafmUvD1WTJfgRdGjLwlv/UPCceHEoi66ehbByEJi1lU37lRsvpI6/GJ4321naX9tmZoCs/FCPcn6Q==
 
 react-dev-utils@^5.0.2:
   version "5.0.3"
