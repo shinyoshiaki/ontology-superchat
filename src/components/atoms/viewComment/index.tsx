@@ -7,10 +7,7 @@ export interface IviewCommentProps {
   msg: string;
 }
 
-export default class ViewComment extends React.Component<
-  IviewCommentProps,
-  {}
-> {
+export default class ViewComment extends React.Component<IviewCommentProps, {}> {
   constructor(props: IviewCommentProps) {
     super(props);
   }
@@ -23,10 +20,11 @@ export default class ViewComment extends React.Component<
           border: "1px solid",
           borderRadius: 4,
           borderWidth: 0.5,
-          borderColor: "#d6d7da"
+          borderColor: "#d6d7da",
+          wordBreak: "break-word"
         }}
       >
-        <div style={{ padding: 10}}>
+        <div style={{ padding: 10 }}>
           <Blockies seed={this.props.id} scale={3} />
         </div>
         <Typography style={{ padding: 10 }}>{this.props.id}</Typography>

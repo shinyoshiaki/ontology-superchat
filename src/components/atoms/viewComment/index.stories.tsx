@@ -6,5 +6,5 @@ import Component from ".";
 // import { action } from "@storybook/addon-actions";
 
 storiesOf("atoms", module).add("viewComment", () => (
-  <Component id="id" msg="msg" />
+  <Component id="ididididididididididididididididididididid" msg="msgmsgmsgmsgmsgmsgmsgmsgmsgmsgmsgmsgmsgmsgmsgmsgmsgmsgmsgmsgmsgmsgmsgmsgmsg" />
 ));
