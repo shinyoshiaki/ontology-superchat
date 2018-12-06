@@ -16,10 +16,7 @@ export interface IdrawerMolProps {
 
 export interface IdrawerMolState {}
 
-export default class DrawerMol extends React.Component<
-  IdrawerMolProps,
-  IdrawerMolState
-> {
+export default class DrawerMol extends React.Component<IdrawerMolProps, IdrawerMolState> {
   constructor(props: IdrawerMolProps) {
     super(props);
   }
@@ -30,7 +27,6 @@ export default class DrawerMol extends React.Component<
         <Divider />
         <Button
           onClick={() => {
-            console.log({ address });
             this.props.history.push("/" + address);
           }}
         >

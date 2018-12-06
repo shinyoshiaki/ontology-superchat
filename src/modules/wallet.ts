@@ -4,7 +4,6 @@ import { Dispatch, Action } from "redux";
 import { client } from "ontology-dapi";
 
 const json = jsonBin;
-client.registerClient({});
 
 console.log({ json });
 

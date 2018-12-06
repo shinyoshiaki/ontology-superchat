@@ -5,7 +5,7 @@ import * as json from "./helloworld.abi.json";
 import { address2scriptHash, onScCall } from "./wallet";
 import { client } from "ontology-dapi";
 
-client.registerClient({});
+// client.registerClient({});
 
 export interface Chatstate {
   comments: CommentData[];
@@ -82,12 +82,11 @@ export async function listenComment(myAddress: string, dispatch: Dispatch<Update
 }
 
 export async function superChat(target: string, msg: string, amout: number, dispatch: Dispatch<AddCommentAction>) {
-  console.log("superchat");
   const abiInfo = AbiInfo.parseJson(JSON.stringify(json));
   const codeHash = abiInfo.getHash().replace("0x", "");
 
   const address = await client.api.asset.getAccount();
-
+  console.log("superchat");
   const abiFunction = abiInfo.getFunction("tip");
 
   const comment: CommentData = {
