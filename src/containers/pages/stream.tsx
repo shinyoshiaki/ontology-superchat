@@ -2,7 +2,7 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { ReduxState } from "src/createStore";
 import { Dispatch } from "redux";
-import { Chatstate } from "../../modules/chat";
+import { Chatstate, listenSuperChats } from "../../modules/chat";
 import { Walletstate, setMyAddress } from "../../modules/wallet";
 import StreamTemp from "../../components/templates/stream";
 import { drawerList } from "./main";
@@ -21,15 +21,16 @@ class Stream extends React.Component<Props, States> {
     super(props);
     this.state = { modalOpen: false };
     setMyAddress(this.props.dispatch);
+    listenSuperChats(this.props.dispatch);
   }
 
   render() {
-    const { history, myAddress, comments } = this.props;
+    const { history, myAddress, superChats } = this.props;
     return (
       <div>
         <StreamTemp
-          listCommentComments={comments.slice().reverse()}
-          listSuperChatComments={comments.slice().reverse()}
+          listCommentComments={superChats.slice().reverse()}
+          listSuperChatComments={superChats.slice().reverse()}
           myAddress={myAddress ? myAddress : "error"}
           history={history}
           drawerMolList={drawerList}

@@ -21,6 +21,7 @@ interface States {
 export const drawerList = [{ address: "", label: "watch" }, { address: "stream", label: "stream" }];
 
 class Main extends React.Component<Props, States> {
+  isListenComments = false;
   constructor(props: any) {
     super(props);
     this.state = { modalOpen: false };
@@ -28,9 +29,7 @@ class Main extends React.Component<Props, States> {
   }
 
   async init() {
-    const result = await setMyAddress(this.props.dispatch);
-    console.log({ result });
-    listenComment(result, this.props.dispatch);
+    await setMyAddress(this.props.dispatch);
   }
 
   handleModalClose = () => {
@@ -54,6 +53,10 @@ class Main extends React.Component<Props, States> {
 
   formSetAddress = (target: string) => {
     setWalletValue(EwalletValue.targetAddress, target, this.props.dispatch);
+    if (!this.isListenComments) {
+      listenComment(target, this.props.dispatch);
+      this.isListenComments = true;
+    }
   };
 
   render() {

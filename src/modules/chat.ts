@@ -5,14 +5,18 @@ import * as json from "./helloworld.abi.json";
 import { address2scriptHash, onScCall } from "./wallet";
 import { client } from "ontology-dapi";
 
-// client.registerClient({});
+const rest = new RestClient("http://polaris1.ont.io:20334");
+const abiInfo = AbiInfo.parseJson(JSON.stringify(json));
+const codeHash = abiInfo.getHash().replace("0x", "");
 
 export interface Chatstate {
   comments: CommentData[];
+  superChats: CommentData[];
 }
 
 const initialState: Chatstate = {
-  comments: []
+  comments: [],
+  superChats: []
 };
 
 enum ActionNames {
@@ -28,7 +32,8 @@ interface SetChatValueAction extends Action {
 }
 
 export enum EchatValue {
-  comments = "comments"
+  comments = "comments",
+  superChats = "superChats"
 }
 
 export function setChatValue(key: EchatValue, value: any, dispatch: Dispatch<SetChatValueAction>) {
@@ -40,11 +45,8 @@ export function strJson(obj: object) {
   return objString;
 }
 
-export async function listenComment(myAddress: string, dispatch: Dispatch<UpdateCommentAction>) {
-  const abiInfo = AbiInfo.parseJson(JSON.stringify(json));
-  const codeHash = abiInfo.getHash().replace("0x", "");
-  const rest = new RestClient("http://polaris1.ont.io:20334");
-  const address = address2scriptHash(myAddress) + Buffer.from(":list", "ascii").toString("hex");
+export async function listenComment(targetAddress: string, dispatch: Dispatch<UpdateCommentAction>) {
+  const address = address2scriptHash(targetAddress) + Buffer.from(":list", "ascii").toString("hex");
   let commentsLocal: CommentData[] = [];
   setInterval(async () => {
     const comments: CommentData[] = [];
@@ -52,7 +54,7 @@ export async function listenComment(myAddress: string, dispatch: Dispatch<Update
     if (result) {
       const users: string[] = Array.from(new Set(result.Result.split("25")));
       for (const user of users) {
-        const url = address2scriptHash(myAddress) + user;
+        const url = address2scriptHash(targetAddress) + user;
         const raw = await rest.getStorage(codeHash, url).catch(console.log);
         const commentsJson = Buffer.from(raw.Result, "hex")
           .toString("ascii")
@@ -81,10 +83,37 @@ export async function listenComment(myAddress: string, dispatch: Dispatch<Update
   }, 5000);
 }
 
-export async function superChat(target: string, msg: string, amout: number, dispatch: Dispatch<AddCommentAction>) {
-  const abiInfo = AbiInfo.parseJson(JSON.stringify(json));
-  const codeHash = abiInfo.getHash().replace("0x", "");
+export async function listenSuperChats(dispatch: Dispatch<SetChatValueAction>) {
+  const myAddress = await client.api.asset.getAccount();
+  const address = address2scriptHash(myAddress) + Buffer.from(":list", "ascii").toString("hex");
+  let commentsLocal: CommentData[] = [];
+  setInterval(async () => {
+    const comments: CommentData[] = [];
+    const result = await rest.getStorage(codeHash, address).catch(console.log);
+    if (result) {
+      const users: string[] = Array.from(new Set(result.Result.split("25")));
+      for (const user of users) {
+        const url = address2scriptHash(myAddress) + user;
+        const raw = await rest.getStorage(codeHash, url).catch(console.log);
+        const commentsJson = Buffer.from(raw.Result, "hex")
+          .toString("ascii")
+          .split("%");
+        commentsJson.forEach(data => {
+          try {
+            comments.push(JSON.parse(data));
+          } catch (error) {}
+        });
+      }
 
+      if (commentsLocal.length !== comments.length) {
+        setChatValue(EchatValue.superChats, comments, dispatch);
+        commentsLocal = comments;
+      }
+    }
+  }, 5000);
+}
+
+export async function superChat(target: string, msg: string, amout: number, dispatch: Dispatch<AddCommentAction>) {
   const address = await client.api.asset.getAccount();
   console.log("superchat");
   const abiFunction = abiInfo.getFunction("tip");
