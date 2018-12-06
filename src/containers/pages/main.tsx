@@ -30,7 +30,7 @@ class Main extends React.Component<Props, States> {
   async init() {
     const result = await setMyAddress(this.props.dispatch);
     console.log({ result });
-    listenComment(this.props.comments, result, this.props.dispatch);
+    listenComment(result, this.props.dispatch);
   }
 
   handleModalClose = () => {

@@ -17,7 +17,8 @@ const initialState: Chatstate = {
 
 enum ActionNames {
   SET_VALUE = "chat/set_value",
-  ADD_COMMENT = "chat/addcomment"
+  ADD_COMMENT = "chat/addcomment",
+  UPDATE_COMMENT = "chat/updatecomment"
 }
 
 interface SetChatValueAction extends Action {
@@ -34,25 +35,25 @@ export function setChatValue(key: EchatValue, value: any, dispatch: Dispatch<Set
   dispatch({ type: ActionNames.SET_VALUE, key, value });
 }
 
-export async function listenComment(
-  commentArr: CommentData[],
-  myAddress: string,
-  dispatch: Dispatch<SetChatValueAction>
-) {
+export function strJson(obj: object) {
+  const objString = JSON.stringify(obj, Object.keys(obj).sort());
+  return objString;
+}
+
+export async function listenComment(myAddress: string, dispatch: Dispatch<UpdateCommentAction>) {
   const abiInfo = AbiInfo.parseJson(JSON.stringify(json));
   const codeHash = abiInfo.getHash().replace("0x", "");
   const rest = new RestClient("http://polaris1.ont.io:20334");
   const address = address2scriptHash(myAddress) + Buffer.from(":list", "ascii").toString("hex");
-
+  let commentsLocal: CommentData[] = [];
   setInterval(async () => {
     const comments: CommentData[] = [];
     const result = await rest.getStorage(codeHash, address).catch(console.log);
     if (result) {
       const users: string[] = Array.from(new Set(result.Result.split("25")));
-      users.forEach(async v => {
-        const url = address2scriptHash(myAddress) + v;
+      for (const user of users) {
+        const url = address2scriptHash(myAddress) + user;
         const raw = await rest.getStorage(codeHash, url).catch(console.log);
-        console.log({ raw });
         const commentsJson = Buffer.from(raw.Result, "hex")
           .toString("ascii")
           .split("%");
@@ -61,10 +62,20 @@ export async function listenComment(
             comments.push(JSON.parse(data));
           } catch (error) {}
         });
-      });
-      if (commentArr.length !== comments.length) {
-        console.log("update", { comments });
-        setChatValue(EchatValue.comments, comments, dispatch);
+      }
+
+      if (commentsLocal.length !== comments.length) {
+        const arr = comments
+          .map(comment => {
+            let ans: CommentData | undefined = comment;
+            commentsLocal.forEach(v => {
+              if (strJson(comment) === strJson(v)) ans = undefined;
+            });
+            return ans;
+          })
+          .filter(v => v);
+        updateComment(arr, dispatch);
+        commentsLocal = comments;
       }
     }
   }, 5000);
@@ -93,15 +104,13 @@ export async function superChat(target: string, msg: string, amout: number, disp
     new Parameter(abiFunction.parameters[3].getName(), ParameterType.String, JSON.stringify(comment))
   );
 
-  const result = await onScCall({
+  await onScCall({
     scriptHash: codeHash,
     operation: abiFunction.name,
     args: abiFunction.parameters,
     gasLimit: 20000,
     gasPrice: 500
   }).catch(console.log);
-  if (!result) return;
-  addComment(comment, dispatch);
 }
 
 export interface AddCommentAction extends Action {
@@ -113,7 +122,16 @@ export function addComment(comment: CommentData, dispatch: Dispatch<AddCommentAc
   dispatch({ type: ActionNames.ADD_COMMENT, comment });
 }
 
-type ChatActions = SetChatValueAction | AddCommentAction;
+export interface UpdateCommentAction extends Action {
+  type: ActionNames.UPDATE_COMMENT;
+  comments: CommentData[];
+}
+
+export function updateComment(comments: CommentData[], dispatch: Dispatch<UpdateCommentAction>) {
+  dispatch({ type: ActionNames.UPDATE_COMMENT, comments });
+}
+
+type ChatActions = SetChatValueAction | AddCommentAction | UpdateCommentAction;
 
 export default function reducer(state = initialState, action: ChatActions) {
   switch (action.type) {
@@ -121,6 +139,11 @@ export default function reducer(state = initialState, action: ChatActions) {
       return { ...state, [action.key]: action.value };
     case ActionNames.ADD_COMMENT:
       return { ...state, comments: state.comments.concat(action.comment) };
+    case ActionNames.UPDATE_COMMENT:
+      const arr = state.comments
+        .concat(action.comments)
+        .sort((a: CommentData, b: CommentData) => a.timestamp - b.timestamp);
+      return { ...state, comments: arr };
     default:
       return state;
   }

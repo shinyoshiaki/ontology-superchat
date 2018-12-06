@@ -4,7 +4,7 @@ import ViewComment from "../../atoms/viewComment";
 export interface CommentData {
   id: string;
   msg: string;
-  money?: number;
+  money: number;
   timestamp: any;
 }
 

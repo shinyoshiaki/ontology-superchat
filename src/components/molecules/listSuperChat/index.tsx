@@ -10,10 +10,7 @@ export interface IlistSuperChatProps {
 
 export interface IlistSuperChatState {}
 
-export default class ListSuperChat extends React.Component<
-  IlistSuperChatProps,
-  IlistSuperChatState
-> {
+export default class ListSuperChat extends React.Component<IlistSuperChatProps, IlistSuperChatState> {
   url?: string;
   constructor(props: IlistSuperChatProps) {
     super(props);
@@ -57,9 +54,10 @@ export default class ListSuperChat extends React.Component<
         }}
       >
         <div style={{ display: "flex" }}>
-          {this.props.listSuperChatComments.map((v, i) =>
-            this.renderComment(v, i)
-          )}
+          {this.props.listSuperChatComments.map((v, i) => {
+            if (v.money > 0) return this.renderComment(v, i);
+            else return undefined;
+          })}
         </div>
       </div>
     );

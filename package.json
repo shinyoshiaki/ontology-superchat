@@ -1,6 +1,7 @@
 {
   "name": "ontology-superchat",
   "version": "0.0.1",
+  "homepage": "./",
   "private": true,
   "dependencies": {
     "@material-ui/core": "^3.5.1",
