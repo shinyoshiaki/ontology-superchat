@@ -1,5 +1,5 @@
 {
-  "hash": "0x54281aedadd2bcbaadcd460a885d7e3edecf721b",
+  "hash": "0xc8205d099be8baf7488c63f0e543c195fd461a75",
   "entrypoint": "Main",
   "functions": [
     { "name": "name", "parameters": [], "returntype": "String" },
@@ -7,10 +7,7 @@
     { "name": "decimals", "parameters": [], "returntype": "Integer" },
     {
       "name": "Main",
-      "parameters": [
-        { "name": "operation", "type": "String" },
-        { "name": "args", "type": "Array" }
-      ],
+      "parameters": [{ "name": "operation", "type": "String" }, { "name": "args", "type": "Array" }],
       "returntype": "ByteArray"
     },
     { "name": "deploy", "parameters": [], "returntype": "Boolean" },
@@ -24,26 +21,10 @@
       ],
       "returntype": "Boolean"
     },
-    {
-      "name": "balanceOf",
-      "parameters": [{ "name": "address", "type": "ByteArray" }],
-      "returntype": "Integer"
-    },
-    {
-      "name": "inflation",
-      "parameters": [{ "name": "count", "type": "Integer" }],
-      "returntype": "Boolean"
-    },
-    {
-      "name": "recycle",
-      "parameters": [{ "name": "count", "type": "Integer" }],
-      "returntype": "Boolean"
-    },
-    {
-      "name": "transferMulti",
-      "parameters": [{ "name": "args", "type": "Array" }],
-      "returntype": "Boolean"
-    },
+    { "name": "balanceOf", "parameters": [{ "name": "address", "type": "ByteArray" }], "returntype": "Integer" },
+    { "name": "inflation", "parameters": [{ "name": "count", "type": "Integer" }], "returntype": "Boolean" },
+    { "name": "recycle", "parameters": [{ "name": "count", "type": "Integer" }], "returntype": "Boolean" },
+    { "name": "transferMulti", "parameters": [{ "name": "args", "type": "Array" }], "returntype": "Boolean" },
     {
       "name": "tip",
       "parameters": [

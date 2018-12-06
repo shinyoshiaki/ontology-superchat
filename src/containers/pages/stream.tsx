@@ -28,8 +28,8 @@ class Stream extends React.Component<Props, States> {
     return (
       <div>
         <StreamTemp
-          listCommentComments={comments}
-          listSuperChatComments={comments}
+          listCommentComments={comments.slice().reverse()}
+          listSuperChatComments={comments.slice().reverse()}
           myAddress={myAddress ? myAddress : "error"}
           history={history}
           drawerMolList={drawerList}

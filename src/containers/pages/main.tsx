@@ -3,11 +3,11 @@ import { connect } from "react-redux";
 import { ReduxState } from "src/createStore";
 import { Dispatch } from "redux";
 import MainTemp from "src/components/templates/main";
-import { Chatstate, addComment } from "../../modules/chat";
+import { Chatstate, addComment, listenComment, superChat } from "../../modules/chat";
 import { CommentData } from "../../components/molecules/listComment";
 import { Modal } from "@material-ui/core";
 import FormSuperChat from "../../components/molecules/formSuperChat";
-import { superChat, setWalletValue, EwalletValue, Walletstate, setMyAddress } from "../../modules/wallet";
+import { setWalletValue, EwalletValue, Walletstate, setMyAddress } from "../../modules/wallet";
 
 interface Props extends Chatstate, Walletstate {
   dispatch: Dispatch;
@@ -24,7 +24,13 @@ class Main extends React.Component<Props, States> {
   constructor(props: any) {
     super(props);
     this.state = { modalOpen: false };
-    setMyAddress(this.props.dispatch);
+    this.init();
+  }
+
+  async init() {
+    const result = await setMyAddress(this.props.dispatch);
+    console.log({ result });
+    listenComment(this.props.comments, result, this.props.dispatch);
   }
 
   handleModalClose = () => {
@@ -52,13 +58,12 @@ class Main extends React.Component<Props, States> {
 
   render() {
     const { comments, dispatch, targetAddress, history, myAddress } = this.props;
-    console.log({ comments });
     return (
       <div>
         <MainTemp
           myAddress={myAddress ? myAddress : "error"}
-          listCommentComments={comments}
-          listSuperChatComments={comments}
+          listCommentComments={comments.slice().reverse()}
+          listSuperChatComments={comments.slice().reverse()}
           onformCommentPost={this.formCommentPost}
           onformCommentSuperchat={this.handleModalOpen}
           onformSetAddress={this.formSetAddress}
@@ -85,6 +90,7 @@ class Main extends React.Component<Props, States> {
               myAddress={myAddress ? myAddress : "error"}
               onformSuperChatPost={(msg, amount) => {
                 console.log({ targetAddress });
+
                 if (targetAddress) superChat(targetAddress, msg, amount, dispatch);
               }}
             />

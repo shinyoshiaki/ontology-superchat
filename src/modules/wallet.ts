@@ -1,9 +1,7 @@
-import { Crypto, AbiInfo, Parameter, ParameterType } from "ontology-ts-sdk";
+import { Crypto } from "ontology-ts-sdk";
 import * as jsonBin from "./helloworld.abi.json";
 import { Dispatch, Action } from "redux";
 import { client } from "ontology-dapi";
-import { addComment, AddCommentAction } from "./chat";
-import { CommentData } from "../components/molecules/listComment";
 
 const json = jsonBin;
 client.registerClient({});
@@ -35,17 +33,14 @@ interface SetValueAction extends Action {
   value: any;
 }
 
-export function setWalletValue(
-  key: EwalletValue,
-  value: any,
-  dispatch: Dispatch<SetValueAction>
-) {
+export function setWalletValue(key: EwalletValue, value: any, dispatch: Dispatch<SetValueAction>) {
   dispatch({ type: ActionNames.SET_VALUE, key, value });
 }
 
 export async function setMyAddress(dispatch: Dispatch<SetValueAction>) {
   const address = await client.api.asset.getAccount();
   if (address) setWalletValue(EwalletValue.myAddress, address, dispatch);
+  return address;
 }
 
 export function address2scriptHash(address: string) {
@@ -53,59 +48,7 @@ export function address2scriptHash(address: string) {
   return ad.serialize();
 }
 
-export async function superChat(
-  target: string,
-  msg: string,
-  amout: number,
-  dispatch: Dispatch<AddCommentAction>
-) {
-  console.log("superchat");
-  const abiInfo = AbiInfo.parseJson(JSON.stringify(json));
-  const codeHash = abiInfo.getHash().replace("0x", "");
 
-  const address = await client.api.asset.getAccount();
-
-  const abiFunction = abiInfo.getFunction("tip");
-  abiFunction.setParamsValue(
-    new Parameter(
-      abiFunction.parameters[0].getName(),
-      ParameterType.ByteArray,
-      address2scriptHash(address)
-    ),
-    new Parameter(
-      abiFunction.parameters[1].getName(),
-      ParameterType.ByteArray,
-      address2scriptHash(target)
-    ),
-    new Parameter(
-      abiFunction.parameters[2].getName(),
-      ParameterType.Integer,
-      amout
-    ),
-    new Parameter(
-      abiFunction.parameters[3].getName(),
-      ParameterType.String,
-      msg
-    )
-  );
-
-  const result = await onScCall({
-    scriptHash: codeHash,
-    operation: abiFunction.name,
-    args: abiFunction.parameters,
-    gasLimit: 20000,
-    gasPrice: 500
-  }).catch(console.log);
-  if (result) {
-    const comment: CommentData = {
-      id: address,
-      msg,
-      money: amout,
-      timestamp: Date.now()
-    };
-    addComment(comment, dispatch);
-  }
-}
 
 interface Iinvoke {
   scriptHash: string;
@@ -119,14 +62,7 @@ interface Iinvoke {
 export async function onScCall(values: Iinvoke) {
   return new Promise<object>(async (resolve, reject) => {
     client.registerClient({});
-    const {
-      scriptHash,
-      operation,
-      gasPrice,
-      gasLimit,
-      requireIdentity,
-      args
-    } = values;
+    const { scriptHash, operation, gasPrice, gasLimit, requireIdentity, args } = values;
 
     console.log({ args });
     try {
