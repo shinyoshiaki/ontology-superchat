@@ -4,10 +4,14 @@ import { CommentData } from "../components/molecules/listComment";
 import * as json from "./helloworld.abi.json";
 import { address2scriptHash, onScCall } from "./wallet";
 import { client } from "ontology-dapi";
+import Node from "kad-rtc/lib/node/node";
+import Kademlia from "kad-rtc";
+import sha1 from "sha1";
 
 const rest = new RestClient("http://polaris1.ont.io:20334");
 const abiInfo = AbiInfo.parseJson(JSON.stringify(json));
 const codeHash = abiInfo.getHash().replace("0x", "");
+const kad: Kademlia = new Node({ address: "35.231.49.162", port: "20000" }).kad;
 
 export interface Chatstate {
   comments: CommentData[];
@@ -43,6 +47,22 @@ export function setChatValue(key: EchatValue, value: any, dispatch: Dispatch<Set
 export function strJson(obj: object) {
   const objString = JSON.stringify(obj, Object.keys(obj).sort());
   return objString;
+}
+
+export async function listenKadComment(targetAddress: string, dispatch: Dispatch<UpdateCommentAction>) {
+  let commentLocal = {};
+  setInterval(async () => {
+    const result = await kad.findValue(sha1(targetAddress));
+    if (result) {
+      if (result.type === "comment") {
+        const comment: CommentData = result.comment;
+        if (strJson(comment) !== strJson(commentLocal)) {
+          updateComment([comment], dispatch);
+          commentLocal = comment;
+        }
+      }
+    }
+  }, 1000);
 }
 
 export async function listenComment(targetAddress: string, dispatch: Dispatch<UpdateCommentAction>) {
@@ -150,8 +170,9 @@ export interface AddCommentAction extends Action {
   comment: CommentData;
 }
 
-export function addComment(comment: CommentData, dispatch: Dispatch<AddCommentAction>) {
-  dispatch({ type: ActionNames.ADD_COMMENT, comment });
+export function addComment(targetAddress: string, comment: CommentData, dispatch: Dispatch<AddCommentAction>) {
+  // dispatch({ type: ActionNames.ADD_COMMENT, comment });
+  kad.store(kad.nodeId, sha1(targetAddress), { type: "comment", comment });
 }
 
 export interface UpdateCommentAction extends Action {

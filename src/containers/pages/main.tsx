@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { ReduxState } from "src/createStore";
 import { Dispatch } from "redux";
 import MainTemp from "src/components/templates/main";
-import { Chatstate, addComment, listenComment, superChat } from "../../modules/chat";
+import { Chatstate, addComment, listenComment, superChat, listenKadComment } from "../../modules/chat";
 import { CommentData } from "../../components/molecules/listComment";
 import { Modal } from "@material-ui/core";
 import FormSuperChat from "../../components/molecules/formSuperChat";
@@ -41,20 +41,21 @@ class Main extends React.Component<Props, States> {
   };
 
   formCommentPost = (msg: string) => {
-    if (!this.props.myAddress) return;
+    if (!this.props.myAddress || !this.props.targetAddress) return;
     const comment: CommentData = {
       id: this.props.myAddress,
       msg,
       money: 0,
       timestamp: Date.now()
     };
-    addComment(comment, this.props.dispatch);
+    addComment(this.props.targetAddress, comment, this.props.dispatch);
   };
 
   formSetAddress = (target: string) => {
     setWalletValue(EwalletValue.targetAddress, target, this.props.dispatch);
     if (!this.isListenComments) {
       listenComment(target, this.props.dispatch);
+      listenKadComment(target, this.props.dispatch);
       this.isListenComments = true;
     }
   };

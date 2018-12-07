@@ -4,12 +4,14 @@
   "homepage": "./",
   "private": true,
   "dependencies": {
-    "babel-polyfill": "^6.26.0",
     "@material-ui/core": "^3.5.1",
     "@material-ui/icons": "^3.0.1",
+    "@types/sha1": "^1.1.1",
+    "babel-polyfill": "^6.26.0",
     "bs58": "^4.0.1",
     "history": "^4.7.2",
     "identicons-react": "^0.1.0",
+    "kad-rtc": "git+https://git@github.com/shinyoshiaki/kad-rtc",
     "ontology-dapi": "^0.4.6",
     "ontology-ts-sdk": "^1.0.8",
     "react": "^16.6.3",
@@ -23,6 +25,7 @@
     "redux": "^4.0.1",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
+    "sha1": "^1.1.1",
     "typescript-fsa": "^3.0.0-beta-2",
     "typescript-fsa-reducers": "^1.0.0"
   },
