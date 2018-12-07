@@ -106,7 +106,11 @@ export async function listenSuperChats(dispatch: Dispatch<SetChatValueAction>) {
       }
 
       if (commentsLocal.length !== comments.length) {
-        setChatValue(EchatValue.superChats, comments, dispatch);
+        setChatValue(
+          EchatValue.superChats,
+          comments.slice().sort((a: CommentData, b: CommentData) => a.timestamp - b.timestamp),
+          dispatch
+        );
         commentsLocal = comments;
       }
     }

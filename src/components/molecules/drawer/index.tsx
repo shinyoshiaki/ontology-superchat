@@ -26,6 +26,7 @@ export default class DrawerMol extends React.Component<IdrawerMolProps, IdrawerM
       <div key={address}>
         <Divider />
         <Button
+          style={{ width: "30vh" }}
           onClick={() => {
             this.props.history.push("/" + address);
           }}
