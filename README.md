@@ -4,5 +4,5 @@ You need to install Cyano wallet ,and get some testnet Token.
 
 ## Demo  
 https://shinyoshiaki.github.io/ontology-superchat-dev/build/  
-You need accept unsafe script waring on chrome url bar,for run this demo.  
+You need to accept unsafe script waring on chrome url bar,for run this demo.  
 (because of need to connect http server)
